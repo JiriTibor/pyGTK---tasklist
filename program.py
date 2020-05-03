@@ -59,6 +59,7 @@ class window(Gtk.Window):
 
     #Function for updating list
     def click_update(self, button):
+        self.liststore.clear()
         for x in range(0, len(tasks)):
             self.liststore.append([tasks[x]])
 
