@@ -25,10 +25,6 @@ class window(Gtk.Window):
         self.button_delete = Gtk.Button.new_with_label("Delete")
         self.button_delete.connect("clicked", self.click_delete)
 
-        # Creates button for updating cells
-        self.button_update = Gtk.Button.new_with_label("Update")
-        self.button_update.connect("clicked", self.click_update)
-
         #Appends tasks into a cell
         self.liststore = Gtk.ListStore(str)
         for x in range(0, len(tasks)):
@@ -45,23 +41,23 @@ class window(Gtk.Window):
         #Renders buttons in a grid
         grid.add(self.button_add)
         grid.attach(self.button_delete, 1, 0, 2, 1)
-        grid.attach(self.button_update, 1, 1, 2, 1)
         grid.attach(self.entry, 0, 1, 2, 1)
+
+    def update(self):
+        self.liststore.clear()
+        for x in range(0, len(tasks)):
+            self.liststore.append([tasks[x]])
 
     #Function for adding text
     def click_add(self, button):
         tasks.append(self.entry.get_text())
         print(tasks)
+        self.update()
 
     #Function for deleting text
     def click_delete(self, button):
         tasks.remove(self.entry.get_text())
-
-    #Function for updating list
-    def click_update(self, button):
-        self.liststore.clear()
-        for x in range(0, len(tasks)):
-            self.liststore.append([tasks[x]])
+        self.update()
 
 win = window()
 win.connect("destroy", Gtk.main_quit)
